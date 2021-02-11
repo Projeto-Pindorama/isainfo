@@ -1,0 +1,45 @@
+#!/bin/sh
+# Reimplementation of Sun Microsystems' isainfo(1) made with cheap hacks in Shell Script for Linux, created for solving compatibility issues.
+# Author: Luiz Antônio Rangel et Projeto Pindorama.
+# License: Volkerdings-Slackware (or Public Domain).
+
+fn_getcpuinfo(){
+  case `uname -m` in
+    x86_64) export instruction_set='amd64'; export bits='64';;
+    i?86) export instruction_set='i386'; export bits='32';;
+    aarch64) export instruction_set='aarch64'; export bits='64';;
+    arm*) export instruction_set='arm'; export bits='32';;
+  esac
+  CPUFLAGS="`cat /proc/cpuinfo | grep 'flags' | cut -f 2 -d ":" | awk '{$1=$1}1' | uniq`"
+}
+
+fn_printbits(){
+  printf '%s\n' "${bits}"
+}
+fn_printinstset(){
+  printf '%s\n' "${instruction_set}"
+}
+
+fn_printflags(){
+  printf '%s\n' "${instruction_set}: ${CPUFLAGS}"
+}
+
+fn_printhelp(){
+  printf '%s\n' "\
+isainfo: illegal option -${1}
+usage: isainfo [-b | -k | -n | -x ]
+"
+}
+
+fn_main(){
+  fn_getcpuinfo 
+  case $1 in 
+    -b) fn_printbits;;
+    -k) fn_printinstset;;
+    -n) fn_printinstset;;
+    -x) fn_printflags;;
+     *) fn_printhelp;;
+  esac
+}
+
+fn_main $1 
