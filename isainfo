@@ -16,6 +16,7 @@ fn_getcpuinfo(){
 fn_printbits(){
   printf '%s\n' "${bits}"
 }
+
 fn_printinstset(){
   printf '%s\n' "${instruction_set}"
 }
@@ -33,13 +34,13 @@ usage: isainfo [-b | -k | -n | -x ]
 
 fn_main(){
   fn_getcpuinfo 
-  case $1 in 
+  case ${1} in 
     -b) fn_printbits;;
     -k) fn_printinstset;;
     -n) fn_printinstset;;
     -x) fn_printflags;;
-     *) fn_printhelp;;
+     *) fn_printhelp ${1};;
   esac
 }
 
-fn_main $1 
+fn_main ${1}
