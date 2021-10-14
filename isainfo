@@ -1,7 +1,7 @@
 #!/bin/sh
 # Reimplementation of Sun Microsystems' isainfo(1) made with cheap hacks in Shell Script for Linux, created for solving compatibility issues.
 # Author: Luiz Antônio Rangel et Projeto Pindorama.
-# License: Volkerdings-Slackware (or Public Domain).
+# License: Unlicense.
 
 fn_getcpuinfo(){
   case `uname -m` in
@@ -22,14 +22,14 @@ fn_printinstset(){
 }
 
 fn_printflags(){
-  printf '%s\n' "${instruction_set}: ${CPUFLAGS}"
+  printf '%s: %s\n' "${instruction_set}" "${CPUFLAGS}"
 }
 
 fn_printhelp(){
-  printf '%s\n' "\
-isainfo: illegal option -${1}
+  printf "\
+isainfo: illegal option -%s
 usage: isainfo [-b | -k | -n | -x ]
-"
+" ${1}
 }
 
 fn_main(){
